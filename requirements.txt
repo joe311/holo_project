@@ -1,0 +1,10 @@
+numpy
+scipy
+matplotlib
+opencv-python
+CairoSVG
+pyzmq
+protobuf
+joblib
+Pillow
+svgfig

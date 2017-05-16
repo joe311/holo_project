@@ -1,0 +1,66 @@
+package holo;
+
+message StandardCommand {
+enum CmdTypes {
+STATUS = 0;
+GENERATE = 1;
+PLAY = 2;
+CALIBRATE_RUN = 3;
+CALIBRATE_BACKGROUND = 4;
+CALIBRATE_CIRCLE = 5;
+CALIBRATE_Z = 6;
+CALIBRATE_Z_RUN = 7;
+CALIBRATE_CORRECTION_FACTOR = 8;
+CALIBRATE_TIMING = 9; //sync between MES and holo, not implemented
+CALIBRATE_RELEASE = 10; //Releases the camera used by the calibration system
+CALIBRATE_Z_OBJ = 11; //Provides the objective of the Z level from MES, used during Z calibration. In um from focal plane
+}
+
+enum AlgorithmTypes{
+GLS = 0;
+//later this may be expanded to have several possible algorithms
+}
+
+required CmdTypes cmd = 1;
+repeated ImageMeta image_meta = 2;  //holds metadata (ie Zlevel) about the svg frames
+optional string message = 3;  //text message, not used currently
+optional float wavelength = 4; //wavelength of laser being used for the hologram
+optional AlgorithmTypes algorithm = 5 [default = GLS];
+repeated double extraZlevels = 6 [packed=true]; //Used to request calculated holographic patterns back at extra Z levels
+optional float calibration_circle_x = 7; //position of the calbiration circle in um (horizontal axis)
+optional float calibration_circle_y = 8; //position of the calbiration circle in um (vertical axis)
+optional float calibration_Z_level = 9; //position of the objective in Z
+optional float correction_factor = 10; //SLM correction factor, only valid with generate messages
+optional float objectiveZlevel = 11; //SLM correction factor, only valid with generate messages
+}
+
+message StandardReply {
+enum ReplyTypes {
+OK = 0; //Everything is ok
+ERROR = 1; //Something went wrong
+}
+enum ErrorTypes {
+UNKNOWN = 0;
+HARDWARE = 1;  //Something is wrong with the SLM
+SOFTWARE = 2; //Something wrong in our software
+BAD_REQUEST = 3; //invalid or poorly formed reqeust
+NOT_YET_IMPLEMENTED = 4; //the feature/option isn't available yet
+}
+
+required ReplyTypes reply = 1;
+repeated ImageMeta image_meta = 2; //metadata about computed holographic patterns, not used quite yet
+optional ErrorTypes error = 3; //error code, if there is an error
+optional string error_message = 4; //may contain details of the error message
+optional float calibrated_correction_factor = 5; //the correction factor from the last calibration, if available
+}
+
+message ImageMeta{
+required double Zlevel = 1;  //Zlevel of the holographic pattern.  In um from the objective
+required int32 frame_num = 2; //Which frame number this is in a sequence, counting up from 0
+required double duration = 4; //Duration of each frame
+}
+
+
+
+
+
