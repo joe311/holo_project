@@ -2,7 +2,7 @@
 
 **Paper link is pending**
 
-## Holographic software package, for two-photon light shaping to drive optogenetics, as a companion to [Dal Maschio and Donovan et al., Neuron 2017](*insert link to paper here*)
+## Holographic software package, for two-photon light shaping to drive optogenetics, as a companion to [Dal Maschio and Donovan et al., Neuron 2017](http://www.cell.com/neuron/fulltext/S0896-6273(17)30362-8)
 
 This software requires the proper hardware setup to use (see the paper for hardware implementation details).
 It also requires some simple integration into the software running the microscope to calibrate the imaging path relative to the holographic system.
